@@ -9,6 +9,15 @@ import org.springframework.core.env.Environment;
  * Main class to start the application.
  */
 // @EnableJpaAuditing
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.env.Environment;
+
+/**
+ * Main class to start the application.
+ */
+// @EnableJpaAuditing
 @SpringBootApplication
 public class FoundationApplication
 {
@@ -52,7 +61,7 @@ public class FoundationApplication
         {
             // so run the application!
             SpringApplication.run(FoundationApplication.class,
-                                  args);
+                    args);
         }
     }
 }
