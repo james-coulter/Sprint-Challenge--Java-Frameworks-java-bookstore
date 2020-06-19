@@ -11,40 +11,30 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "section")
+@Table(name = "sections")
 public class Section extends Auditable {
-
-    // sectionid
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long sectionid;
 
-    // sectionname
-    @Column(nullable = false)
-    private String name;
+    private String sectionname;
 
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("section")
+    private List<Book> booksInSection = new ArrayList<>();
 
-
-    @OneToMany(mappedBy = "section")
-    @JsonIgnoreProperties("sections")
-    private List<Book> book = new ArrayList<>();
-
-    // Default Constructor
     public Section() {
-
     }
 
-    // Constructor
-    public Section(String name) {
-        this.name = name;
+    public Section(String sectionname, List<Book> booksInSection) {
+        this.sectionname = sectionname;
+        this.booksInSection = booksInSection;
     }
 
-    public Section(String name, List<Book> book) {
-        this.name = name;
-        this.book = book;
+    public Section(String sectionname) {
+        this.sectionname = sectionname;
     }
 
-    // Getters and Setters
     public long getSectionid() {
         return sectionid;
     }
@@ -53,29 +43,19 @@ public class Section extends Auditable {
         this.sectionid = sectionid;
     }
 
-    public String getName() {
-        return name;
+    public String getSectionname() {
+        return sectionname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSectionname(String sectionname) {
+        this.sectionname = sectionname;
     }
 
-    public List<Book> getBook() {
-        return book;
+    public List<Book> getBooksInSection() {
+        return booksInSection;
     }
 
-    public void setBook(List<Book> book) {
-        this.book = book;
-    }
-
-    // toString
-    @Override
-    public String toString() {
-        return "Section{" +
-                "sectionid=" + sectionid +
-                ", name='" + name + '\'' +
-                ", book=" + book +
-                '}';
+    public void setBooksInSection(List<Book> booksInSection) {
+        this.booksInSection = booksInSection;
     }
 }

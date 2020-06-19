@@ -8,69 +8,57 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "wrote")
-public class Wrote extends Auditable implements Serializable
-{
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bookid")
-    @JsonIgnoreProperties({"bookAuthors", "hibernateLazyInitializer"})
-    private Book book;
+@Table(name = "wrotes", uniqueConstraints = {@UniqueConstraint(columnNames = {"authorid", "bookid"})})
+public class Wrote extends Auditable implements Serializable {
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "authorid")
-    @JsonIgnoreProperties({"bookAuthors", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties(value = "books", allowSetters = true)
     private Author author;
 
-    public Wrote()
-    {
+    @Id
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bookid")
+    @JsonIgnoreProperties(value = "authors", allowSetters = true)
+    private Book book;
+
+    public Wrote() {
     }
 
-    public Wrote(Book book, Author author)
-    {
-        this.book = book;
+    public Wrote(Author author, Book book) {
         this.author = author;
-    }
-
-    public Book getBook()
-    {
-        return book;
-    }
-
-    public void setBook(Book book)
-    {
         this.book = book;
     }
 
-    public Author getAuthor()
-    {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author)
-    {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+
     @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
-            return true;
-        }
-        if (!(o instanceof Wrote))
-        {
-            return false;
-        }
-        Wrote that = (Wrote) o;
-        return Objects.equals(getBook(), that.getBook()) && Objects.equals(getAuthor(), that.getAuthor());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Wrote wrote = (Wrote) o;
+        return Objects.equals(author, wrote.author) &&
+                Objects.equals(book, wrote.book);
     }
 
     @Override
-    public int hashCode()
-    {
-        return Objects.hash(getBook(), getAuthor());
+    public int hashCode() {
+        return Objects.hash(author, book);
     }
 }

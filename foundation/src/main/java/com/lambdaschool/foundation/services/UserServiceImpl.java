@@ -110,18 +110,18 @@ public class UserServiceImpl
             for (UserRoles ur : oldUser.getRoles())
             {
                 deleteUserRole(ur.getUser()
-                                       .getUserid(),
-                               ur.getRole()
-                                       .getRoleid());
+                                .getUserid(),
+                        ur.getRole()
+                                .getRoleid());
             }
             newUser.setUserid(user.getUserid());
         }
 
         newUser.setUsername(user.getUsername()
-                                    .toLowerCase());
+                .toLowerCase());
         newUser.setPasswordNoEncrypt(user.getPassword());
         newUser.setPrimaryemail(user.getPrimaryemail()
-                                        .toLowerCase());
+                .toLowerCase());
 
         newUser.getRoles()
                 .clear();
@@ -130,7 +130,7 @@ public class UserServiceImpl
             for (UserRoles ur : user.getRoles())
             {
                 Role newRole = roleService.findRoleById(ur.getRole()
-                                                                .getRoleid());
+                        .getRoleid());
 
                 newUser.addRole(newRole);
             }
@@ -140,8 +140,8 @@ public class UserServiceImpl
             for (UserRoles ur : user.getRoles())
             {
                 addUserRole(newUser.getUserid(),
-                            ur.getRole()
-                                    .getRoleid());
+                        ur.getRole()
+                                .getRoleid());
             }
         }
 
@@ -151,7 +151,7 @@ public class UserServiceImpl
         {
             newUser.getUseremails()
                     .add(new Useremail(newUser,
-                                       ue.getUseremail()));
+                            ue.getUseremail()));
         }
 
         return userrepos.save(newUser);
@@ -170,7 +170,7 @@ public class UserServiceImpl
             if (user.getUsername() != null)
             {
                 currentUser.setUsername(user.getUsername()
-                                                .toLowerCase());
+                        .toLowerCase());
             }
 
             if (user.getPassword() != null)
@@ -181,7 +181,7 @@ public class UserServiceImpl
             if (user.getPrimaryemail() != null)
             {
                 currentUser.setPrimaryemail(user.getPrimaryemail()
-                                                    .toLowerCase());
+                        .toLowerCase());
             }
 
             if (user.getRoles()
@@ -191,17 +191,17 @@ public class UserServiceImpl
                 for (UserRoles ur : currentUser.getRoles())
                 {
                     deleteUserRole(ur.getUser()
-                                           .getUserid(),
-                                   ur.getRole()
-                                           .getRoleid());
+                                    .getUserid(),
+                            ur.getRole()
+                                    .getRoleid());
                 }
 
                 // add the new roles for the user we are replacing
                 for (UserRoles ur : user.getRoles())
                 {
                     addUserRole(currentUser.getUserid(),
-                                ur.getRole()
-                                        .getRoleid());
+                            ur.getRole()
+                                    .getRoleid());
                 }
             }
 
@@ -214,7 +214,7 @@ public class UserServiceImpl
                 {
                     currentUser.getUseremails()
                             .add(new Useremail(currentUser,
-                                               ue.getUseremail()));
+                                    ue.getUseremail()));
                 }
             }
 
@@ -240,11 +240,11 @@ public class UserServiceImpl
         roleService.findRoleById(roleid);
 
         if (userrepos.checkUserRolesCombo(userid,
-                                          roleid)
+                roleid)
                 .getCount() > 0)
         {
             userrepos.deleteUserRoles(userid,
-                                      roleid);
+                    roleid);
         } else
         {
             throw new ResourceNotFoundException("Role and User Combination Does Not Exists");
@@ -262,13 +262,13 @@ public class UserServiceImpl
         roleService.findRoleById(roleid);
 
         if (userrepos.checkUserRolesCombo(userid,
-                                          roleid)
+                roleid)
                 .getCount() <= 0)
         {
             userrepos.insertUserRoles(userAuditing.getCurrentAuditor()
-                                              .get(),
-                                      userid,
-                                      roleid);
+                            .get(),
+                    userid,
+                    roleid);
         } else
         {
             throw new ResourceFoundException("Role and User Combination Already Exists");
